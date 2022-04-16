@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Cinema } from './cinema.entity';
 import { CinemaRepository } from './cinema.repository';
 import { CreateCinemaDto } from './dto/create-cinema.dto';
+import { UpdateCinemaDto } from './dto/update-cinema.dto';
 
 @Injectable()
 export class CinemaService {
@@ -38,5 +39,32 @@ export class CinemaService {
 
   async getAllCinemas(): Promise<Cinema[]> {
     return await this.cinemaRepository.getCinemas();
+  }
+
+  async deleteCinema(id: string): Promise<void> {
+    const result = await this.cinemaRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Taks with ID"${id}" not found`);
+    }
+  }
+
+  async updateCinema(
+    id: string,
+    updateCinemaDto: UpdateCinemaDto,
+  ): Promise<void> {
+    const { name, location, email, mobile } = updateCinemaDto;
+    const found = await this.cinemaRepository.findOne({ where: { id: id } });
+
+    if (!found) {
+      throw new NotFoundException(`Task with ID: "${id}" not found.`);
+    }
+
+    await this.cinemaRepository.update(found.id, {
+      name,
+      location,
+      email,
+      mobile,
+    });
   }
 }
