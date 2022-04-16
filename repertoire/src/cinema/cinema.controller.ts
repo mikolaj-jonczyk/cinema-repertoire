@@ -1,11 +1,17 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+
+import { Cinema } from './cinema.entity';
 import { CinemaService } from './cinema.service';
 import { CreateCinemaDto } from './dto/create-cinema.dto';
-import { Cinema } from './cinema.model';
 
 @Controller('cinema')
 export class CinemaController {
   constructor(private cinemaService: CinemaService) {}
+
+  @Get('/:id')
+  getCinemaById(@Param('id') id: string): Promise<Cinema> {
+    return this.cinemaService.getCinemaById(id);
+  }
 
   @Get()
   getAllCinemas() {
@@ -13,7 +19,7 @@ export class CinemaController {
   }
 
   @Post()
-  createCinema(@Body() createCinemaDto: CreateCinemaDto): Cinema {
+  createCinema(@Body() createCinemaDto: CreateCinemaDto): Promise<Cinema> {
     return this.cinemaService.createCinema(createCinemaDto);
   }
 }

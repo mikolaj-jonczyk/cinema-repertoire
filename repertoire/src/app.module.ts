@@ -16,7 +16,7 @@ import { MovieModule } from './movie/movie.module';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: AppConfig.Database.HOST,
-      port: AppConfig.Database.PORT,
+      port: parseInt(AppConfig.Database.PORT),
       username: AppConfig.Database.USER,
       password: AppConfig.Database.PASSWORD,
       database: AppConfig.Database.NAME,

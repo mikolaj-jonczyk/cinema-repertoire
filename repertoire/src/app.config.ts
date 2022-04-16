@@ -8,7 +8,7 @@ const Environment = {
 
 const Database = {
   HOST: process.env.DATABASE_HOST,
-  PORT: process.env.DATABASE_PORT || 5432,
+  PORT: process.env.DATABASE_PORT,
   USER: process.env.DATABASE_USER,
   NAME: process.env.DATABASE_NAME,
   PASSWORD: process.env.DATABASE_PASSWORD,
