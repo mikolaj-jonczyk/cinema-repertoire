@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CinemaRepository } from '../cinema/cinema.repository';
 import { MovieRepository } from '../movie/movie.repository';
 import { CreateRepertoireDataDto } from './dto/create-repertoire.dto';
+import { GetRepertoireFilterDto } from './dto/get-repertoire-filter.dto';
 import { RepertoireData } from './repertoire-data.entity';
 import { RepertoireDataRepository } from './repertoire-data.repository';
 
@@ -17,6 +18,12 @@ export class RepertoireDataService {
     @InjectRepository(MovieRepository)
     private movieRepository: MovieRepository,
   ) {}
+
+  async getRepertoireData(
+    filterDto: GetRepertoireFilterDto,
+  ): Promise<RepertoireData[]> {
+    return this.repertoireDataRepository.getRepertoireData(filterDto);
+  }
 
   async createRepertoireData(
     createRepertoireDataDto: CreateRepertoireDataDto,
@@ -37,13 +44,19 @@ export class RepertoireDataService {
     if (!cinema) {
       throw new NotFoundException(`Cinema with ID: "${cinemaId}" not found.`);
     }
-    const repertoireData = this.repertoireDataRepository.create({
+
+    return this.repertoireDataRepository.createRepertoireData(
       cinema,
       movie,
-      date: new Date(showDate),
-    });
+      showDate,
+    );
+  }
 
-    await this.repertoireDataRepository.save(repertoireData);
-    return repertoireData;
+  async deleteRepertoireData(id: string): Promise<void> {
+    const result = await this.repertoireDataRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Repertoire Data with ID"${id}" not found`);
+    }
   }
 }

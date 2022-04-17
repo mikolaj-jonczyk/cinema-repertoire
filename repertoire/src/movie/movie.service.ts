@@ -24,20 +24,7 @@ export class MovieService {
   }
 
   async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
-    const { name, shortDescription, description, actors, time, director } =
-      createMovieDto;
-
-    const movie = this.movieRepository.create({
-      name,
-      shortDescription,
-      description,
-      actors,
-      time,
-      director,
-    });
-
-    await this.movieRepository.save(movie);
-    return movie;
+    return await this.movieRepository.createMovie(createMovieDto);
   }
 
   async getAllMovies(): Promise<Movie[]> {
@@ -53,21 +40,12 @@ export class MovieService {
   }
 
   async updateMovie(id: string, updateMovieDto: UpdateMovieDto): Promise<void> {
-    const { name, shortDescription, description, actors, time, director } =
-      updateMovieDto;
-    const found = await this.movieRepository.findOne({ where: { id: id } });
+    const movie = await this.movieRepository.findOne({ where: { id: id } });
 
-    if (!found) {
+    if (!movie) {
       throw new NotFoundException(`Movie with ID: "${id}" not found.`);
     }
 
-    await this.movieRepository.update(found.id, {
-      name,
-      shortDescription,
-      description,
-      actors,
-      time,
-      director,
-    });
+    await this.movieRepository.updateMovie(movie, updateMovieDto);
   }
 }

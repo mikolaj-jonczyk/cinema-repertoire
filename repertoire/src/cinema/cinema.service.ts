@@ -24,17 +24,7 @@ export class CinemaService {
   }
 
   async createCinema(createCinemaDto: CreateCinemaDto): Promise<Cinema> {
-    const { name, location, email, mobile } = createCinemaDto;
-
-    const cinema = this.cinemaRepository.create({
-      name,
-      location,
-      email,
-      mobile,
-    });
-
-    await this.cinemaRepository.save(cinema);
-    return cinema;
+    return this.cinemaRepository.createCinema(createCinemaDto);
   }
 
   async getAllCinemas(): Promise<Cinema[]> {
@@ -53,18 +43,12 @@ export class CinemaService {
     id: string,
     updateCinemaDto: UpdateCinemaDto,
   ): Promise<void> {
-    const { name, location, email, mobile } = updateCinemaDto;
-    const found = await this.cinemaRepository.findOne({ where: { id: id } });
+    const cinema = await this.cinemaRepository.findOne({ where: { id: id } });
 
-    if (!found) {
+    if (!cinema) {
       throw new NotFoundException(`Cinema with ID: "${id}" not found.`);
     }
 
-    await this.cinemaRepository.update(found.id, {
-      name,
-      location,
-      email,
-      mobile,
-    });
+    await this.cinemaRepository.updateCinema(cinema, updateCinemaDto);
   }
 }

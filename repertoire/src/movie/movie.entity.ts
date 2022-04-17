@@ -25,6 +25,9 @@ export class Movie {
   @Column()
   director: string;
 
+  @Column()
+  image: string;
+
   @OneToMany(() => RepertoireData, (repertoireData) => repertoireData.cinema)
   repertoire: RepertoireData[];
 }

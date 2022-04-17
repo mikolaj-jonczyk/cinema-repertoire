@@ -5,4 +5,5 @@ export class CreateMovieDto {
   actors: string;
   time: number;
   director: string;
+  image: string;
 }
