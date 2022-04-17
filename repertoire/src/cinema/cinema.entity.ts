@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { RepertoireData } from '../repertoire-data/repertoire-data.entity';
 
 @Entity()
 export class Cinema {
@@ -16,4 +18,7 @@ export class Cinema {
 
   @Column()
   mobile: number;
+
+  @OneToMany(() => RepertoireData, (repertoireData) => repertoireData.cinema)
+  repertoire: RepertoireData[];
 }

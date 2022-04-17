@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfig } from './app.config';
 import { CinemaModule } from './cinema/cinema.module';
 import { MovieModule } from './movie/movie.module';
+import { RepertoireDataModule } from './repertoire-data/repertoire-data.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MovieModule } from './movie/movie.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    RepertoireDataModule,
   ],
   controllers: [],
   providers: [],
