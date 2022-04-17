@@ -17,7 +17,7 @@ export class CinemaService {
     const found = await this.cinemaRepository.findOne({ where: { id: id } });
 
     if (!found) {
-      throw new NotFoundException(`Task with ID: "${id}" not found.`);
+      throw new NotFoundException(`Cinema with ID: "${id}" not found.`);
     }
 
     return found;
@@ -45,7 +45,7 @@ export class CinemaService {
     const result = await this.cinemaRepository.delete(id);
 
     if (result.affected === 0) {
-      throw new NotFoundException(`Taks with ID"${id}" not found`);
+      throw new NotFoundException(`Cinema with ID"${id}" not found`);
     }
   }
 
@@ -57,7 +57,7 @@ export class CinemaService {
     const found = await this.cinemaRepository.findOne({ where: { id: id } });
 
     if (!found) {
-      throw new NotFoundException(`Task with ID: "${id}" not found.`);
+      throw new NotFoundException(`Cinema with ID: "${id}" not found.`);
     }
 
     await this.cinemaRepository.update(found.id, {
